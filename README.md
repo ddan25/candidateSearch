@@ -38,4 +38,4 @@ You can reach me at [ddan25](https://github.com/ddan25) or via email at ddan25@g
 
 GitHub Repo: https://github.com/ddan25/candidateSearch
 
-Deployed Render: 
+Deployed Render: https://candidatesearch-1-t1rg.onrender.com
