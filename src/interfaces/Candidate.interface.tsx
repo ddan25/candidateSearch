@@ -2,11 +2,11 @@
 interface Candidate {
     login: string;
     name: string;
-    location: string;
+    location?: string;
     avatar_url: string;  // URL to the candidate's avatar image
-    email: string;
+    email?: string;
     html_url: string;  // URL to the candidate's profile (e.g., GitHub)
-    company: string;
+    company?: string;
   }
   
   export default Candidate

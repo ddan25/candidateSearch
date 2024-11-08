@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react';
+import Candidate from '../interfaces/Candidate.interface.tsx';
 
-interface Candidate {
-  name: string;
-  username: string;
-  location: string;
-  avatar: string;
-  email: string;
-  html_url: string;
-  company: string;
-}
 
 const SavedCandidates = () => {
   const [potentialCandidates, setPotentialCandidates] = useState<Candidate[]>([]);
@@ -24,7 +16,7 @@ const SavedCandidates = () => {
   // Handle removing a candidate from the saved list
   const removeCandidate = (candidateToRemove: Candidate) => {
     const updatedCandidates = potentialCandidates.filter(
-      (candidate) => candidate.username !== candidateToRemove.username
+      (candidate) => candidate.login !== candidateToRemove.login
     );
     setPotentialCandidates(updatedCandidates);
     localStorage.setItem('potentialCandidates', JSON.stringify(updatedCandidates)); // Persist the updated list
@@ -39,16 +31,16 @@ const SavedCandidates = () => {
       ) : (
         <ul>
           {potentialCandidates.map((candidate) => (
-            <li key={candidate.username} style={{ marginBottom: '20px' }}>
+            <li key={candidate.login} style={{ marginBottom: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
-                  src={candidate.avatar}
-                  alt={candidate.username}
+                  src={candidate.avatar_url}
+                  alt={candidate.login}
                   style={{ width: '50px', height: '50px', borderRadius: '50%' }}
                 />
                 <div style={{ marginLeft: '10px' }}>
                   <h3>{candidate.name}</h3>
-                  <p>Username: {candidate.username}</p>
+                  <p>Username: {candidate.login}</p>
                   <p>Location: {candidate.location}</p>
                   <p>Email: {candidate.email}</p>
                   <p>Company: {candidate.company}</p>
