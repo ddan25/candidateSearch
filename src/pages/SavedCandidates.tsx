@@ -7,7 +7,7 @@ const SavedCandidates = () => {
 
   useEffect(() => {
     // Retrieve saved potential candidates from localStorage when the component loads
-    const savedCandidates = localStorage.getItem('potentialCandidates');
+    const savedCandidates = localStorage.getItem('savedCandidates');
     if (savedCandidates) {
       setPotentialCandidates(JSON.parse(savedCandidates));
     }
@@ -19,7 +19,7 @@ const SavedCandidates = () => {
       (candidate) => candidate.login !== candidateToRemove.login
     );
     setPotentialCandidates(updatedCandidates);
-    localStorage.setItem('potentialCandidates', JSON.stringify(updatedCandidates)); // Persist the updated list
+    localStorage.setItem('savedCandidates', JSON.stringify(updatedCandidates)); // Persist the updated list
   };
 
   return (

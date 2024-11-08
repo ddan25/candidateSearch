@@ -11,24 +11,22 @@ const CandidateSearch = () => {
     const saved = localStorage.getItem('savedCandidates');
     return saved ? JSON.parse(saved) : [];
   });
+  // Fetch candidates when the component loads
+  const fetchCandidates = async () => {
+    try {
+      // Adjusted search term to "developer" or a more general term
+      const data = await searchGithub(); // Example search term
+      setCandidates(data || []);
+      const userData = await searchGithubUser(data[currentIndex].login);
 
+       // Ensure it's always an array
+         // Check if the currentIndex is valid before attempting to access candidates[currentIndex]
+     setCurrentCandidate(userData);
+    } catch (error) {
+      console.error('Error fetching candidates:', error);
+    }
+  };
   useEffect(() => {
-    // Fetch candidates when the component loads
-    const fetchCandidates = async () => {
-      try {
-        // Adjusted search term to "developer" or a more general term
-        const data = await searchGithub(); // Example search term
-        setCandidates(data || []);
-        const userData = await searchGithubUser(data[0].login);
-  
-         // Ensure it's always an array
-           // Check if the currentIndex is valid before attempting to access candidates[currentIndex]
-       setCurrentCandidate(userData);
-      } catch (error) {
-        console.error('Error fetching candidates:', error);
-      }
-    };
-
     fetchCandidates();
   }, []);
 
@@ -39,6 +37,8 @@ const CandidateSearch = () => {
     setSavedCandidates((prevSaved) => {
       const updatedSaved = [...prevSaved, candidate];
       localStorage.setItem('savedCandidates', JSON.stringify(updatedSaved));
+      setCurrentIndex((currentIndex +1));
+      fetchCandidates();
       return updatedSaved;
     });
   };
@@ -46,7 +46,9 @@ const CandidateSearch = () => {
   const skipCandidate = () => {
     // Move to the next candidate, wrap around to the first candidate if at the end of the list
     if (candidates.length > 0) {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % candidates.length);
+      // setCurrentIndex((prevIndex) => (prevIndex + 1) % candidates.length);
+      setCurrentIndex((currentIndex +1));
+      fetchCandidates();
     }
   };
 
@@ -59,10 +61,10 @@ const CandidateSearch = () => {
         <div>
           <img src={currentCandidate.avatar_url} alt={currentCandidate.name} />
           <h2>{currentCandidate.login}</h2>
-          <p>Username: {currentCandidate.login}</p>
-          <p>Location: {currentCandidate.location}</p>
-          <p>Email: {currentCandidate.email}</p>
-          <p>Company: {currentCandidate.company}</p>
+          <p>Username: {currentCandidate.name === null? 'N/A':currentCandidate.name}</p>
+          <p>Location: {currentCandidate.location === null? 'N/A':currentCandidate.location}</p>
+          <p>Email: {currentCandidate.email === null? 'N/A':currentCandidate.email}</p>
+          <p>Company: {currentCandidate.company === null? 'N/A':currentCandidate.company}</p>
           <p>
             <a href={currentCandidate.html_url} target="_blank" rel="noopener noreferrer">
               View Profile
